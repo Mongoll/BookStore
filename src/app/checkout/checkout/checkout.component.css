@@ -1,0 +1,14 @@
+#w3lssbmincart {
+  display: block;
+  position: relative;
+  left: 0;
+  width: 50%;
+}
+
+.radio_text {
+  margin: 0 10px;
+  vertical-align: middle;
+}
+.sbmincart-subtotal .price {
+  color: red;
+}

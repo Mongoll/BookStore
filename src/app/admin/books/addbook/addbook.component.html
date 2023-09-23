@@ -1,0 +1,88 @@
+<h1>{{ book.id == null ? "Add" : "Edit" }} Book - {{ book.id }}</h1>
+
+<form>
+  <label for="isbn">ISBN</label>
+  <input
+    type="text"
+    class="form-control"
+    id="isbn"
+    placeholder="Book ISBN"
+    [(ngModel)]="book.isbn"
+    name="isbn"
+  />
+
+  <label for="title">Title</label>
+  <input
+    type="text"
+    class="form-control"
+    id="title"
+    placeholder="Book Title"
+    [(ngModel)]="book.title"
+    name="title"
+  />
+
+  <label for="author">Author</label>
+  <input
+    type="text"
+    class="form-control"
+    id="author"
+    placeholder="author"
+    name="author"
+    [(ngModel)]="book.author"
+  />
+
+  <label for="description">Description</label>
+  <input
+    type="text"
+    class="form-control"
+    id="description"
+    placeholder="Description"
+    name="description"
+    [(ngModel)]="book.description"
+  />
+
+  <label for="category">Category</label>
+  <input
+    type="text"
+    class="form-control"
+    id="category"
+    placeholder="Category"
+    name="category"
+    [(ngModel)]="book.category"
+  />
+
+  <label for="edition">Edition</label>
+  <input
+    type="text"
+    class="form-control"
+    id="edition"
+    placeholder="Edition"
+    name="edition"
+    [(ngModel)]="book.edition"
+  />
+
+  <label for="author">Price</label>
+  <input
+    type="text"
+    class="form-control"
+    id="price"
+    placeholder="price"
+    name="price"
+    [(ngModel)]="book.price"
+  />
+
+  <label for="imageURL">Image URL</label>
+  <input
+    type="text"
+    class="form-control"
+    id="imageURL"
+    placeholder="Image URL"
+    name="imageURL"
+    [(ngModel)]="book.imageURL"
+  />
+
+  <br />
+  <button type="button" class="btn btn-success" (click)="addBook()">
+    Save Book
+  </button>
+</form>
