@@ -56,7 +56,8 @@ export class CheckoutComponent implements OnInit {
     let obj = this.cartObj;
     let totalPrice = 0;
     for (var o in obj) {
-      totalPrice = totalPrice + parseFloat(obj[o].book.price);
+      totalPrice =
+        totalPrice + parseFloat(obj[o].book.price) * parseFloat(obj[o].qty);
     }
     return totalPrice.toFixed(2);
   }

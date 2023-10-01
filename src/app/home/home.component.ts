@@ -76,6 +76,7 @@ export class HomeComponent implements OnInit {
   handleSuccessfulResponseCart(response) {
     this.cartBooks = new Array<Cart>();
     this.cartRecived = response;
+    this.cartQty = 0;
     for (const cart of this.cartRecived) {
       const cartOfUser = new Cart();
       cartOfUser.book = cart.book;
@@ -94,6 +95,7 @@ export class HomeComponent implements OnInit {
     this.cartService.addCart(cartObj, newUser).subscribe((cartObj) => {
       this.cartAddedEvent.emit();
     });
+    this.ngOnInit();
   }
 
   updateCartData(cartData) {

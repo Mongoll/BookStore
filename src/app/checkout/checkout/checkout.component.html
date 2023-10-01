@@ -1,105 +1,111 @@
-<div class="typo codes icons main-grid-border">
-  <div class="container">
-    <div>
-      <h1>Checkout Cart</h1>
-
-      <div style="display: block" id="w3lssbmincart">
-        <ul>
-          <li
-            *ngFor="let cart of cartObj"
-            class="sbmincart-item sbmincart-item-changed"
-          >
-            <div class="sbmincart-details-name">
-              <a class="sbmincart-name">{{ cart.book.title }}</a>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+<body>
+  <main class="page">
+    <section class="shopping-cart dark">
+      <div class="container">
+        <div class="block-heading">
+          <h2>Shopping Cart</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam
+            urna, dignissim nec auctor in, mattis vitae leo.
+          </p>
+        </div>
+        <div class="content">
+          <div class="row">
+            <div class="col-md-12 col-lg-8">
+              <div class="items">
+                <div class="product" *ngFor="let cart of cartObj">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <img
+                        class="img-fluid mx-auto d-block image"
+                        src="{{ cart.book.imageURL }}"
+                      />
+                    </div>
+                    <div class="col-md-8">
+                      <div class="info">
+                        <div class="row">
+                          <div class="col-md-6 product-name">
+                            <div class="product-name">
+                              <a href="#">{{ cart.book.title }}</a>
+                              <div class="product-info">
+                                <div>
+                                  Author:
+                                  <span class="value">{{
+                                    cart.book.author
+                                  }}</span>
+                                </div>
+                                <div>
+                                  Category:
+                                  <span class="value"></span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3 quantity">
+                            <label for="quantity">Quantity:</label>
+                            <input
+                              id="quantity"
+                              type="number"
+                              value="{{ cart.qty }}"
+                              (change)="qtyChange($event.target.value, cart)"
+                              class="form-control quantity-input"
+                            />
+                          </div>
+                          <div class="col-md-2 price">
+                            <span>{{ cart.book.price }}</span>
+                          </div>
+                          <div class="col-md-1 sbmincart-details-remove">
+                            <button
+                              (click)="removeCartById(cart)"
+                              type="button"
+                              class="btn"
+                              data-sbmincart-idx="0"
+                            >
+                              <i class="fa fa-trash"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="sbmincart-details-quantity">
-              <select
-                [(ngModel)]="cart.qty"
-                (change)="qtyChange($event.target.value, cart)"
-              >
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </select>
+            <div class="col-md-12 col-lg-4">
+              <div class="summary">
+                <h3>Summary</h3>
+                <div class="summary-item">
+                  <span class="text">Subtotal</span>
+                  <span class="price">${{ cartTotalPrice }}</span>
+                </div>
+                <div class="summary-item">
+                  <span class="text">Discount</span>
+                  <span class="price">$0</span>
+                </div>
+                <div class="summary-item">
+                  <span class="text">Shipping</span>
+                  <span class="price">$0</span>
+                </div>
+                <div class="summary-item">
+                  <span class="text">Total</span>
+                  <span class="price">$360</span>
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-block">
+                  Checkout
+                </button>
+              </div>
             </div>
-            <div class="sbmincart-details-remove">
-              <button
-                (click)="removeCartById(cart)"
-                type="button"
-                class="sbmincart-remove"
-                data-sbmincart-idx="0"
-              >
-                ×
-              </button>
-            </div>
-            <div class="sbmincart-details-price">
-              <span class="sbmincart-price">{{ cart.book.price }}</span>
-            </div>
-          </li>
-        </ul>
-        <div class="sbmincart-footer">
-          <div class="sbmincart-subtotal radio-wrap">
-            <span
-              ><input
-                [(ngModel)]="pay_type"
-                value="cash_on_delivery"
-                type="radio"
-                name="pay_type"
-              /><span class="radio_text">Cash on Delivery</span></span
-            >
-            <span
-              ><input
-                [(ngModel)]="pay_type"
-                value="online"
-                name="pay_type"
-                type="radio"
-              /><span class="radio_text">Online</span></span
-            >
-          </div>
-          <div class="sbmincart-subtotal">
-            <textarea
-              placeholder="Enter the Delivery address"
-              [(ngModel)]="delivery_address"
-            ></textarea>
-          </div>
-
-          <div class="sbmincart-subtotal">
-            Subtotal: <span class="price">${{ cartTotalPrice }}</span>
-          </div>
-
-          <div>
-            <button (click)="checkoutCart()">Place Order</button>
           </div>
         </div>
-        <input type="hidden" name="bn" value="sbmincart_AddToCart_WPS_US" />
       </div>
-    </div>
-  </div>
-</div>
-<!-- //web icons -->
-<!-- newsletter -->
-<div class="newsletter">
-  <div class="container">
-    <div class="col-md-6 w3agile_newsletter_left">
-      <h3>Newsletter</h3>
-      <p>Excepteur sint occaecat cupidatat non proident, sunt.</p>
-    </div>
-    <div class="col-md-6 w3agile_newsletter_right">
-      <form action="#" method="post">
-        <input type="email" name="Email" placeholder="Email" required="" />
-        <input type="submit" value="" />
-      </form>
-    </div>
-    <div class="clearfix"></div>
-  </div>
-</div>
+    </section>
+  </main>
+</body>
+
 <!-- //newsletter -->
 <!-- footer -->
 <div class="footer">
@@ -110,16 +116,17 @@
         <p>Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>
         <ul class="address">
           <li>
-            <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i
-            >1234k Avenue, 4th block, <span>New York City.</span>
+            <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
+            1234k Avenue, 4th block,
+            <span>New York City.</span>
           </li>
           <li>
-            <i class="glyphicon glyphicon-envelope" aria-hidden="true"></i
-            ><a href="mailto:info@example.com">info@example.com</a>
+            <i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>
+            <a href="mailto:info@example.com">info@example.com</a>
           </li>
           <li>
-            <i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234
-            567 567
+            <i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>
+            +1234 567 567
           </li>
         </ul>
       </div>
@@ -165,9 +172,9 @@
   <div class="footer-copy">
     <div class="footer-copy1">
       <div class="footer-copy-pos">
-        <a href="#home1" class="scroll"
-          ><img src="images/arrow.png" alt=" " class="img-responsive"
-        /></a>
+        <a href="#home1" class="scroll">
+          <img src="images/arrow.png" alt=" " class="img-responsive" />
+        </a>
       </div>
     </div>
     <div class="container">
