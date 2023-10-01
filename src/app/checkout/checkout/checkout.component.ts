@@ -66,6 +66,7 @@ export class CheckoutComponent implements OnInit {
     if (confirm("Are you sure want to delete..?")) {
       let id = cartObj.id;
       this.cartService.removeCartItem(id);
+      this.ngOnInit;
     }
   }
   checkoutCart() {
