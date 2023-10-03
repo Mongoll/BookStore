@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   cartRecived: Array<Cart>;
   currentUser: any;
   cartQty = 0;
+  data: any;
   @Input()
   book: Book;
 
@@ -44,7 +45,12 @@ export class HomeComponent implements OnInit {
         this.books = JSON.parse(err.error).message;
       }
     );
-    let data = this.cartService
+    this.cartService.data$.subscribe((newData) => {
+      // Обновите данные в компоненте при изменении.
+      this.data = newData;
+    });
+
+    /* let data = this.cartService
       .getCartDetailsByUser(this.currentUser.id)
       .subscribe(
         (response) => {
@@ -53,7 +59,7 @@ export class HomeComponent implements OnInit {
         (err) => {
           this.cartBooks = JSON.parse(err.error).message;
         }
-      );
+      ); */
 
     this.cartBooks = [];
   }

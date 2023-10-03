@@ -2,12 +2,13 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { BehaviorSubject } from "rxjs/internal/BehaviorSubject";
 import { Cart } from "../model/Cart";
 import { User } from "../model/User";
 import { TokenStorageService } from "./token-storage.service";
 import { UserService } from "./user.service";
 import { Book } from "../model/Book";
+import { CheckoutComponent } from "../checkout/checkout/checkout.component";
+import { BehaviorSubject } from "rxjs";
 
 const API_URL = "http://localhost:8081/api/";
 
@@ -15,7 +16,8 @@ const API_URL = "http://localhost:8081/api/";
   providedIn: "root",
 })
 export class CartServiceService {
-  public cartServiceEvent = new BehaviorSubject({});
+  public cartServiceEvent = new BehaviorSubject<any>(null);
+  data$ = this.cartServiceEvent.asObservable();
   cartQty = 0;
   cartObj = [];
   public cartTotalPrice: any;
@@ -27,7 +29,16 @@ export class CartServiceService {
     private router: Router
   ) {
     this.currentUser = this.token.getUser();
-    this.getCartDetailsByUser(this.currentUser.id);
+  }
+
+  getCartDetailsByUser() {
+    const data = this.http
+      .get(API_URL + "addtocart/list/" + this.currentUser.id)
+      .subscribe((data) => {
+        // В этом месте data содержит полученные данные с сервера.
+        // Обновите данные в сервисе и уведомьте компоненты.
+        this.cartServiceEvent.next(data);
+      });
   }
 
   addCart(newCart: Book, newUser): Observable<any> {
@@ -35,10 +46,6 @@ export class CartServiceService {
       API_URL + "addtocart/add/" + newUser + "/1",
       newCart
     );
-  }
-
-  getCartDetailsByUser(newUser): Observable<any> {
-    return this.http.get<User>(API_URL + "addtocart/list/" + newUser);
   }
 
   handleSuccessfulResponse(response) {
@@ -66,7 +73,7 @@ export class CartServiceService {
   removeCartItem(cartItemId) {
     this.http.delete(API_URL + "addtocart/remove/" + cartItemId).subscribe(
       (data: any) => {
-        this.getCartDetailsByUser(this.currentUser);
+        this.getCartDetailsByUser();
       },
       (error) => {
         alert("Error while fetching the cart Details");
@@ -77,7 +84,7 @@ export class CartServiceService {
   removeCart(delUserId) {
     this.http.delete(API_URL + "addtocart/delete/" + delUserId).subscribe(
       (data: any) => {
-        this.getCartDetailsByUser(this.currentUser);
+        this.getCartDetailsByUser();
       },
       (error) => {
         alert("Error while fetching the cart Details");
@@ -89,7 +96,7 @@ export class CartServiceService {
       .put(API_URL + "addtocart/update/" + cartId + "/" + qty, {})
       .subscribe(
         (data: any) => {
-          this.getCartDetailsByUser(this.currentUser); //for updating in the application..
+          this.getCartDetailsByUser(); //for updating in the application..
         },
         (error) => {
           alert("Error while fetching the cart Details");

@@ -12,10 +12,8 @@ const API_URL = "http://localhost:8081/api/";
   styleUrls: ["./checkout.component.css"],
 })
 export class CheckoutComponent implements OnInit {
-  cartObj = [];
-  cartTotalPrice: any;
-  pay_type = "cash_on_delivery";
-  delivery_address = "";
+  data = [];
+  cartTotalPrice: string;
   currentUser: any;
   constructor(
     private router: Router,
@@ -27,71 +25,33 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCartDetailsByUser(this.currentUser.id);
-    //below function will be triggerd from when removing and qty  is changing..
-    this.cartService.cartServiceEvent.subscribe((data) => {
-      this.cartObj = this.cartService.getCartOBj();
-      this.cartTotalPrice = this.cartService.cartTotalPrice;
+    this.cartService.data$.subscribe((newData) => {
+      // Обновите данные в компоненте при изменении.
+      this.data = newData;
+      this.cartTotalPrice = this.getTotalAmounOfTheCart();
     });
+    this.cartService.getCartDetailsByUser();
   }
 
-  qtyChange(qty, cartObj) {
-    this.cartService.updateQTY(cartObj.id, qty);
-  }
-
-  getCartDetailsByUser(currentUser) {
-    this.http.get(API_URL + "addtocart/list/" + currentUser, {}).subscribe(
-      (data: any) => {
-        this.cartObj = data;
-        this.cartTotalPrice = this.getTotalAmounOfTheCart();
-      },
-      (error) => {
-        alert("Error while fetching the cart Details");
-      }
-    );
-    return this.cartObj;
+  qtyChange(qty, data) {
+    this.cartService.updateQTY(data.id, qty);
   }
 
   getTotalAmounOfTheCart() {
-    let obj = this.cartObj;
+    let obj = this.data;
     let totalPrice = 0;
     for (var o in obj) {
       totalPrice =
         totalPrice + parseFloat(obj[o].book.price) * parseFloat(obj[o].qty);
     }
     return totalPrice.toFixed(2);
+    alert(totalPrice);
   }
 
   removeCartById(cartObj) {
     if (confirm("Are you sure want to delete..?")) {
       let id = cartObj.id;
       this.cartService.removeCartItem(id);
-      this.ngOnInit;
-    }
-  }
-  checkoutCart() {
-    if (this.delivery_address == "") {
-      alert("Delivery address should not be empty");
-      return;
-    }
-    if (this.pay_type == "cash_on_delivery") {
-      let request = {
-        total_price: this.cartTotalPrice,
-        pay_type: "COD",
-        deliveryAddress: this.delivery_address,
-      };
-      this.http.post("api/order/checkout_order", request).subscribe(
-        (data: any) => {
-          alert("checkout process completed.Your Order is processed..");
-          this.cartService.getCartDetailsByUser(this.currentUser.id);
-          this.router.navigate([""]);
-        },
-        (error) => {
-          alert("Error while fetching the cart Details");
-        }
-      );
-    } else {
-      alert("Payment Integration is not yet completed.");
     }
   }
 }
