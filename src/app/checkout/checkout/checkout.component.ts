@@ -45,7 +45,6 @@ export class CheckoutComponent implements OnInit {
         totalPrice + parseFloat(obj[o].book.price) * parseFloat(obj[o].qty);
     }
     return totalPrice.toFixed(2);
-    alert(totalPrice);
   }
 
   removeCartById(cartObj) {

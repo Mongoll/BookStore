@@ -16,11 +16,9 @@ import { Cart } from "../model/Cart";
 export class HomeComponent implements OnInit {
   books: Array<Book>;
   booksRecieved: Array<Book>;
-  cartBooks: Array<Cart>;
-  cartRecived: Array<Cart>;
   currentUser: any;
-  cartQty = 0;
-  data: any;
+  cartQty: string;
+  data: Cart;
   @Input()
   book: Book;
 
@@ -48,20 +46,9 @@ export class HomeComponent implements OnInit {
     this.cartService.data$.subscribe((newData) => {
       // Обновите данные в компоненте при изменении.
       this.data = newData;
+      this.cartQty = this.cartQTY();
     });
-
-    /* let data = this.cartService
-      .getCartDetailsByUser(this.currentUser.id)
-      .subscribe(
-        (response) => {
-          this.handleSuccessfulResponseCart(response);
-        },
-        (err) => {
-          this.cartBooks = JSON.parse(err.error).message;
-        }
-      ); */
-
-    this.cartBooks = [];
+    this.cartService.getCartDetailsByUser();
   }
   handleSuccessfulResponse(response) {
     this.books = new Array<Book>();
@@ -79,20 +66,13 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  handleSuccessfulResponseCart(response) {
-    this.cartBooks = new Array<Cart>();
-    this.cartRecived = response;
-    this.cartQty = 0;
-    for (const cart of this.cartRecived) {
-      const cartOfUser = new Cart();
-      cartOfUser.book = cart.book;
-      cartOfUser.qty = cart.qty;
-      cartOfUser.userId = cart.userId;
-      this.cartBooks.push(cartOfUser);
+  cartQTY() {
+    let qtyList = this.data;
+    let qty = 0;
+    for (var o in qtyList) {
+      qty = qty + parseFloat(qtyList[o].qty);
     }
-    for (var o in this.cartBooks) {
-      this.cartQty = this.cartQty + this.cartBooks[o].qty;
-    }
+    return qty.toFixed(0);
   }
 
   addToCart(book: Book) {
@@ -102,10 +82,6 @@ export class HomeComponent implements OnInit {
       this.cartAddedEvent.emit();
     });
     this.ngOnInit();
-  }
-
-  updateCartData(cartData) {
-    this.cartBooks = cartData;
   }
 
   goToCart() {

@@ -1,7 +1,7 @@
 import { Book } from "./Book";
 
 export class Cart {
-  /*  cartId: number; */
+  id: number;
   book: Book;
   qty: number;
   price: number;

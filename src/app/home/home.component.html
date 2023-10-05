@@ -18,7 +18,7 @@
             <span class="caret">{{ cartQty }}</span>
           </a>
           <ul class="dropdown-menu dropdown-cart" role="menu">
-            <li *ngFor="let item of cartBooks">
+            <li *ngFor="let item of data">
               <div class="item product-cart-item row">
                 <div class="col-md-6" *ngIf="item">{{ item.book.title }}</div>
                 <div class="col-md-2" *ngIf="item">{{ item.qty }}</div>
@@ -37,7 +37,7 @@
               >
             </li>
             <br />
-            <li *ngIf="cartBooks.length > 0">
+            <li *ngIf="data.length > 0">
               <a
                 class="btn btn-small btn-warning"
                 role="button"

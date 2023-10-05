@@ -46,28 +46,7 @@ export class CartServiceService {
       API_URL + "addtocart/add/" + newUser + "/1",
       newCart
     );
-  }
-
-  handleSuccessfulResponse(response) {
-    this.cartObj = response;
-    this.cartTotalPrice = this.getTotalAmounOfTheCart();
-  }
-
-  getCartOBj() {
-    return this.cartObj;
-  }
-  getTotalAmounOfTheCart() {
-    let obj = this.cartObj;
-    let totalPrice = 0;
-
-    for (var o in obj) {
-      totalPrice = totalPrice + parseFloat(obj[o].price);
-    }
-
-    return totalPrice.toFixed(2);
-  }
-  getQty() {
-    return this.cartQty;
+    this.getCartDetailsByUser();
   }
 
   removeCartItem(cartItemId) {
