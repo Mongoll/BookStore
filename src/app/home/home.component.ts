@@ -14,11 +14,10 @@ import { Cart } from "../model/Cart";
   styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
-  books: Array<Book>;
-  booksRecieved: Array<Book>;
+  booksData: Book;
   currentUser: any;
   cartQty: string;
-  data: Cart;
+  data = [];
   @Input()
   book: Book;
 
@@ -35,35 +34,16 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getPublicContent().subscribe(
-      (response) => {
-        this.handleSuccessfulResponse(response);
-      },
-      (err) => {
-        this.books = JSON.parse(err.error).message;
-      }
-    );
+    this.userService.booksData$.subscribe((newBooksData) => {
+      this.booksData = newBooksData;
+    });
+    this.userService.getPublicContent();
+
     this.cartService.data$.subscribe((newData) => {
-      // Обновите данные в компоненте при изменении.
       this.data = newData;
       this.cartQty = this.cartQTY();
     });
     this.cartService.getCartDetailsByUser();
-  }
-  handleSuccessfulResponse(response) {
-    this.books = new Array<Book>();
-    //get books returned by the api call
-    this.booksRecieved = response;
-    for (const book of this.booksRecieved) {
-      const bookwithRetrievedImageField = new Book();
-      bookwithRetrievedImageField.id = book.id;
-      bookwithRetrievedImageField.title = book.title;
-      bookwithRetrievedImageField.imageURL = book.imageURL;
-      bookwithRetrievedImageField.author = book.author;
-      bookwithRetrievedImageField.description = book.description;
-      bookwithRetrievedImageField.price = book.price;
-      this.books.push(bookwithRetrievedImageField);
-    }
   }
 
   cartQTY() {
@@ -75,13 +55,8 @@ export class HomeComponent implements OnInit {
     return qty.toFixed(0);
   }
 
-  addToCart(book: Book) {
-    let cartObj = book;
-    let newUser = this.currentUser.id;
-    this.cartService.addCart(cartObj, newUser).subscribe((cartObj) => {
-      this.cartAddedEvent.emit();
-    });
-    this.ngOnInit();
+  addToCart(book) {
+    this.cartService.addCart(book, this.currentUser.id);
   }
 
   goToCart() {

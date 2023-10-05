@@ -9,7 +9,7 @@ import { UserService } from "src/app/_services/user.service";
   styleUrls: ["./books.component.css"],
 })
 export class BooksComponent implements OnInit {
-  books: Array<Book>;
+  booksData: Array<Book>;
   selectedBook: Book;
   action: string;
 
@@ -24,14 +24,15 @@ export class BooksComponent implements OnInit {
   }
 
   refreshData() {
-    this.userService
-      .getPublicContent()
-      .subscribe((response) => this.handleSuccessfulResponse(response));
+    this.userService.booksData$.subscribe((newBooksData) => {
+      this.booksData = newBooksData;
+    });
+    this.userService.getPublicContent();
     this.activedRoute.queryParams.subscribe((params) => {
       this.action = params["action"];
       const selectedBookId = params["id"];
       if (selectedBookId) {
-        this.selectedBook = this.books.find(
+        this.selectedBook = this.booksData.find(
           (book) => book.id === +selectedBookId
         );
       }
@@ -39,7 +40,7 @@ export class BooksComponent implements OnInit {
   }
 
   handleSuccessfulResponse(response) {
-    this.books = response;
+    this.booksData = response;
   }
 
   viewBook(id: number) {

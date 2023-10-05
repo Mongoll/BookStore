@@ -41,12 +41,17 @@ export class CartServiceService {
       });
   }
 
-  addCart(newCart: Book, newUser): Observable<any> {
-    return this.http.post<Cart>(
-      API_URL + "addtocart/add/" + newUser + "/1",
-      newCart
-    );
-    this.getCartDetailsByUser();
+  addCart(newCart: Book, newUser) {
+    this.http
+      .post<Cart>(API_URL + "addtocart/add/" + newUser + "/1", newCart)
+      .subscribe(
+        (data: any) => {
+          this.getCartDetailsByUser(); //for updating in the application..
+        },
+        (error) => {
+          alert("Error while fetching the cart Details");
+        }
+      );
   }
 
   removeCartItem(cartItemId) {
