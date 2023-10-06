@@ -16,9 +16,6 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  /*   getPublicContent(): Observable<any> {
-    return this.http.get<Book[]>(API_URL + "books/all");
-  } */
   getPublicContent() {
     const booksData = this.http
       .get(API_URL + "books/all")
@@ -40,6 +37,10 @@ export class UserService {
 
   deleteUser(id): Observable<any> {
     return this.http.delete<User>(API_URL + "users/" + id);
+  }
+
+  getBookById(id): Observable<any> {
+    return this.http.get<Book>(API_URL + "books/" + id);
   }
 
   addBook(newBook: Book): Observable<any> {

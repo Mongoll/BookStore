@@ -8,6 +8,7 @@ import { ProfileComponent } from "./profile/profile.component";
 import { BoardAdminComponent } from "./board-admin/board-admin.component";
 import { BoardUserComponent } from "./board-user/board-user.component";
 import { CheckoutComponent } from "./checkout/checkout/checkout.component";
+import { BookPageComponent } from "./book-page/book-page.component";
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: "profile", component: ProfileComponent },
   { path: "user", component: BoardUserComponent },
   { path: "cart", component: CheckoutComponent },
+  { path: "book/:id", component: BookPageComponent },
   { path: "", redirectTo: "home", pathMatch: "full" },
 ];
 

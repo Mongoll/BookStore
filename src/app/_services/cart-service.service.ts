@@ -35,8 +35,6 @@ export class CartServiceService {
     const data = this.http
       .get(API_URL + "addtocart/list/" + this.currentUser.id)
       .subscribe((data) => {
-        // В этом месте data содержит полученные данные с сервера.
-        // Обновите данные в сервисе и уведомьте компоненты.
         this.cartServiceEvent.next(data);
       });
   }

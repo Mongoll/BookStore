@@ -71,9 +71,12 @@
         <div class="card-body bg-light text-center">
           <div class="mb-2">
             <h6 class="font-weight-semibold mb-2">
-              <a href="#" class="text-default mb-2" data-abc="true">{{
-                book.title
-              }}</a>
+              <a
+                class="text-default mb-2"
+                data-abc="true"
+                (click)="goToBook(book.id)"
+                >{{ book.title }}</a
+              >
             </h6>
             <a href="#" class="text-muted" data-abc="true">{{ book.author }}</a>
           </div>

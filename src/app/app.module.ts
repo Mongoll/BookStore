@@ -17,6 +17,7 @@ import { BoardAdminComponent } from "./board-admin/board-admin.component";
 import { BoardUserComponent } from "./board-user/board-user.component";
 import { RegisterComponent } from "./register/register.component";
 import { CheckoutComponent } from './checkout/checkout/checkout.component';
+import { BookPageComponent } from './book-page/book-page.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CheckoutComponent } from './checkout/checkout/checkout.component';
     BoardUserComponent,
     RegisterComponent,
     CheckoutComponent,
+    BookPageComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [authInterceptorProviders],

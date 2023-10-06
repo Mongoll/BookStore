@@ -63,6 +63,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(["/cart"]);
   }
 
+  goToBook(bookId) {
+    this.router.navigate(["/book/" + bookId]);
+  }
+
   emptyCart() {
     if (confirm("Are you sure want to delete..?")) {
       let delUserCart = this.currentUser.id;
